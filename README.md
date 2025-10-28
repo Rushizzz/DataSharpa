@@ -1,37 +1,15 @@
-# Smart DevOps Assistant
-## 📌 Project Overview
-Smart DevOps Assistant is an agentic AI application designed to help DevOps engineers monitor, troubleshoot, and optimize cloud infrastructure. It leverages NVIDIA's NIM microservices and AWS deployment tools to provide real-time insights, recommendations, and retrieval-augmented responses based on logs, metrics, and documentation.
-🧠 Architecture Explanation
-The assistant integrates multiple components:
-- AWS CloudWatch: Source of logs and metrics
-- Retrieval Embedding NIM: Embeds and retrieves relevant documentation and historical data
-- LLM (llama-3 1-nemotron-nano-8B-v1): Processes queries and generates intelligent responses
-- Amazon SageMaker: Hosts the AI endpoint
-- UI Layer: CLI or web interface for user interaction
- <img width="1536" height="1024" alt="Designer" src="https://github.com/user-attachments/assets/0c39d4e9-6ea0-4ebe-a68e-ae0d19319ade" />
+## 🧠 Concept
+Build an agentic application called DataSherpa, a GenAI-powered assistant that helps Data Engineers debug, optimize, and document large-scale data pipelines in real time. It uses the llama-3 1-nemotron-nano-8B-v1 model for reasoning and a Retrieval Embedding NIM to index and search pipeline logs, error traces, and documentation. The app is deployed on Amazon EKS for scalability and integrates with Apache Spark, Airflow, and Linux shell logs.
 
-Figure: Smart DevOps Assistant Architecture
-## ⚙️ Setup Instructions
-1. Deploy the Retrieval Embedding NIM and LLM NIM using NVIDIA's microservice framework.
-2. Configure Amazon SageMaker to host the LLM endpoint.
-3. Connect AWS CloudWatch to stream logs and metrics.
-4. Build a simple UI using Streamlit or React to interact with the assistant.
-5. Integrate the components using Python SDKs and REST APIs.
-## 🚀 Usage Guide
-Once deployed, users can interact with the assistant via the UI or CLI. The assistant can:
-- Analyze logs and detect anomalies
-- Suggest fixes and scaling strategies
-- Retrieve relevant documentation and GitHub issues
-- Provide contextual recommendations based on historical data
-## 🎬 Sample Demo Script
-User Scenario: A DevOps engineer wants to troubleshoot a failed deployment and get advice on scaling.
-Interaction Flow:
-User: Hey DevOps Assistant, check the latest logs from CloudWatch for service `auth-api`.
-Assistant: Analyzing logs... Found repeated 502 errors and latency spikes in the last 15 minutes. Possible cause: overloaded instance or misconfigured load balancer.
-User: What should I do?
-Assistant: Recommended actions:
-1. Scale up the instance count from 2 to 4.
-2. Check load balancer health checks and timeout settings.
-Would you like me to retrieve the relevant AWS documentation?
-User: Yes, please.
-Assistant: Here’s the link to AWS Load Balancer Health Check configuration guide. Also retrieved a similar GitHub issue from last month where the fix was updating the timeout to 60s.
+## 🔧 Key Features
+Natural Language Debugging Ask questions like “Why is my Spark job failing on stage 3?” or “What does this Airflow DAG error mean?” and get contextual answers with log trace references.
+
+Log Embedding & Retrieval Upload pipeline logs, shell outputs, or Airflow metadata. The Retrieval Embedding NIM indexes them for semantic search and fast troubleshooting.
+
+Shell Command Generator Based on your query, it suggests optimized Bash one-liners using awk, sed, grep, etc., tailored to your log format and error pattern.
+
+Resource Optimization Advisor Suggests Spark executor/core/memory configurations based on job history and cluster metrics.
+
+Auto-Documentation Agent Converts pipeline logic and DAGs into markdown documentation with embedded code snippets and diagrams.
+
+Open-Source Ready Includes a CLI tool that can be integrated into CI/CD workflows for automated pipeline health checks and documentation generation.
