@@ -1,0 +1,31 @@
+2024-01-15 10:23:45 INFO  SparkContext: Running Spark version 3.4.0
+2024-01-15 10:23:46 INFO  ResourceUtils: Successfully started resource manager
+2024-01-15 10:23:47 INFO  SparkEnv: Registering MapOutputTracker
+2024-01-15 10:23:48 INFO  SparkEnv: Registering BlockManagerMaster
+2024-01-15 10:23:49 INFO  BlockManagerMasterEndpoint: Registered BlockManager
+2024-01-15 10:24:01 INFO  DAGScheduler: Job 0 started
+2024-01-15 10:24:02 INFO  TaskSetManager: Starting task 0.0 in stage 0.0
+2024-01-15 10:24:03 INFO  TaskSetManager: Starting task 1.0 in stage 0.0
+2024-01-15 10:24:15 WARN  TaskSetManager: Lost task 0.0 in stage 0.0 (TID 0) on executor 1
+2024-01-15 10:24:15 ERROR TaskSetManager: Task 0 in stage 0.0 failed 1 times; aborting job
+2024-01-15 10:24:15 ERROR Executor: Exception in task 0.0 in stage 0.0
+java.lang.OutOfMemoryError: Java heap space
+	at org.apache.spark.util.collection.ExternalAppendOnlyMap.insertAll(ExternalAppendOnlyMap.scala:154)
+	at org.apache.spark.rdd.CoGroupedRDD.compute(CoGroupedRDD.scala:157)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:365)
+2024-01-15 10:24:16 INFO  DAGScheduler: Job 0 failed: collect at pipeline.py:45
+2024-01-15 10:24:16 ERROR SparkContext: Error in job execution
+2024-01-15 10:25:01 INFO  SparkContext: Starting new job attempt
+2024-01-15 10:25:02 INFO  DAGScheduler: Job 1 started
+2024-01-15 10:25:03 INFO  TaskSetManager: Starting task 0.0 in stage 1.0
+2024-01-15 10:25:04 WARN  MemoryStore: Not enough space to cache rdd_1_0 in memory
+2024-01-15 10:25:05 INFO  MemoryStore: Memory size = 2.0 GB, used = 1.8 GB
+2024-01-15 10:25:10 ERROR TaskSchedulerImpl: Lost executor 2: Remote RPC client disassociated
+2024-01-15 10:25:11 WARN  TaskSetManager: Lost task 0.0 in stage 1.0 (TID 5) on executor 2
+2024-01-15 10:25:12 INFO  TaskSetManager: Re-submitting task 0.0 in stage 1.0
+2024-01-15 10:25:30 INFO  TaskSetManager: Finished task 0.0 in stage 1.0 (TID 6) in 18523 ms
+2024-01-15 10:25:31 INFO  TaskSetManager: Finished task 1.0 in stage 1.0 (TID 7) in 19012 ms
+2024-01-15 10:25:32 INFO  DAGScheduler: Stage 1 (collect) finished in 27.456 s
+2024-01-15 10:25:33 INFO  DAGScheduler: Job 1 finished: collect at pipeline.py:45, took 28.123 s
+2024-01-15 10:25:34 INFO  SparkContext: Successfully completed job
+2024-01-15 10:25:35 INFO  SparkContext: Stopping spark context

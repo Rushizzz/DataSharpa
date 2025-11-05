@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasherpa-frontend
+  namespace: datasherpa
+  labels:
+    app: datasherpa-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: datasherpa-frontend
+  template:
+    metadata:
+      labels:
+        app: datasherpa-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: datasherpa-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: datasherpa-config
+              key: api-url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datasherpa-frontend-service
+  namespace: datasherpa
+spec:
+  selector:
+    app: datasherpa-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer

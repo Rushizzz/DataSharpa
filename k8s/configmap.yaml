@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: datasherpa-config
+  namespace: datasherpa
+data:
+  llm-api-endpoint: "http://llm-service:8001/v1/chat/completions"
+  embedding-api-endpoint: "http://embedding-service:8002/v1/embeddings"
+  api-url: "http://datasherpa-backend-service:8000"

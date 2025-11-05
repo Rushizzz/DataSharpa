@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasherpa-backend
+  namespace: datasherpa
+  labels:
+    app: datasherpa-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: datasherpa-backend
+  template:
+    metadata:
+      labels:
+        app: datasherpa-backend
+    spec:
+      containers:
+      - name: backend
+        image: datasherpa-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: datasherpa-secrets
+              key: database-url
+        - name: LLM_API_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: datasherpa-config
+              key: llm-api-endpoint
+        - name: LLM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: datasherpa-secrets
+              key: llm-api-key
+        - name: EMBEDDING_API_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: datasherpa-config
+              key: embedding-api-endpoint
+        - name: EMBEDDING_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: datasherpa-secrets
+              key: embedding-api-key
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datasherpa-backend-service
+  namespace: datasherpa
+spec:
+  selector:
+    app: datasherpa-backend
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: LoadBalancer

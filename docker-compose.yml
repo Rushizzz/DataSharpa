@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:latest
+    container_name: datasherpa_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1313
+      MYSQL_DATABASE: datasherpa
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - datasherpa-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: datasherpa_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql://root:1313@mysql:3306/datasherpa
+      - LLM_API_ENDPOINT=${LLM_API_ENDPOINT}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - EMBEDDING_API_ENDPOINT=${EMBEDDING_API_ENDPOINT}
+      - EMBEDDING_API_KEY=${EMBEDDING_API_KEY}
+    depends_on:
+      - mysql
+    networks:
+      - datasherpa-network
+    volumes:
+      - ./backend:/app
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: datasherpa_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - datasherpa-network
+
+volumes:
+  mysql_data:
+
+networks:
+  datasherpa-network:
+    driver: bridge
